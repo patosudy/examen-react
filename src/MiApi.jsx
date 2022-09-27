@@ -16,12 +16,16 @@ export const MiApi = () => {
   const handleInputNombre = (e) => {
     setNombre(e.target.value);
   }
+  
   const buscarNombre = async (e) => {
     e.preventDefault();
+    /** ME LO PIDE LA API DE MARVEL, LO VIMOS EN UN VIDEO TUTORIAL 
+    https://developer.marvel.com/docs
+    */
     const ts = Number(new Date());
     const hash = md5.create();
     hash.update(ts + PRIVATE_KEY + PUBLIC_KEY);
-    
+    //** ME LO PIDE LA API DE MARVEL, LO VIMOS EN UN VIDEO TUTORIAL */
     try {
       const response = await fetch(
         `https://gateway.marvel.com/v1/public/characters?nameStartsWith=${nombre}&ts=${ts}&apikey=${PUBLIC_KEY}&hash=${hash}`);
@@ -33,13 +37,16 @@ export const MiApi = () => {
   }
 
   const consultarsuperheroes = async () => {
+    /** ME LO PIDE LA API DE MARVEL, LO VIMOS EN UN VIDEO TUTORIAL 
+    https://developer.marvel.com/docs
+    */
     const ts = Number(new Date());
     const hash = md5.create();
     hash.update(ts + PRIVATE_KEY + PUBLIC_KEY);
-    
+    //** ME LO PIDE LA API DE MARVEL, LO VIMOS EN UN VIDEO TUTORIAL */
     try {
       const response = await fetch(
-        `https://gateway.marvel.com/v1/public/characters?ts=${ts}&orderBy=${ordenar}&limit=20&apikey=${PUBLIC_KEY}&hash=${hash}`);
+        `https://gateway.marvel.com/v1/public/characters?ts=${ts}&orderBy=${ordenar}&limit=40&apikey=${PUBLIC_KEY}&hash=${hash}`);
        const info = await response.json();
        setHeroes( info.data.results );
     } catch (error) {
@@ -64,9 +71,11 @@ export const MiApi = () => {
               <form className="form-inline" onSubmit={buscarNombre}>
                     
                   <div className="input-group mb-3">
-                  <input type="text" className="form-control" onChange={handleInputNombre} value={nombre} placeholder="Buscar por nombre" aria-label="Buscar por nombre" aria-describedby="button-addon2"/>
+                  <input type="text" className="form-control" 
+                    onChange={handleInputNombre} value={nombre} 
+                    placeholder="Buscar por nombre" aria-label="Buscar por nombre" aria-describedby="button-addon2"/>
                   <div className="input-group-append">
-                    <button className="btn btn-outline-primary" type="submmit" id="button-addon2">
+                    <button className="btn btn-outline-primary" type="submit" id="button-addon2">
                       Buscar
                     </button>
                   </div>
@@ -97,18 +106,18 @@ export const MiApi = () => {
                   ?
                     <>
                     { heroes.map( (heroe) => 
-                      <div className="card m-2 shadow rounded" key={heroe.id}>
+                      <div className="card m-2 shadow rounded-lg" key={heroe.id}>
                       <div className="card-body">
                         <div className="container">
                           <div className="row">
                             <div className="col">
-                              <img src={heroe.thumbnail.path + '.' + heroe.thumbnail.extension} className="img-thumbnail" alt="..."/>
+                              <img src={heroe.thumbnail.path + '.' + heroe.thumbnail.extension} className="img-thumbnail" alt={heroe.name} />
                             </div>
                             <div className="col">
                               {heroe.name}
                             </div>
                             <div className="col-6">
-                              {heroe.description === "" ? "Sin información": heroe.description}
+                              {heroe.description === "" ? "Sin información" : heroe.description }
                             </div>
                           </div>
                           </div>
